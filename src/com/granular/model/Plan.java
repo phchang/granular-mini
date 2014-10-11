@@ -2,10 +2,10 @@ package com.granular.model;
 
 import java.util.List;
 
-public class CropPlan {
+public class Plan {
    private List<Task> tasks;
 
-   public CropPlan() {}
+   public Plan() {}
 
    public List<Task> getTasks() {
       return tasks;
