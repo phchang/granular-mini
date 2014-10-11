@@ -1,28 +1,45 @@
 package com.granular.model;
 
+import java.util.List;
+
 public class Task {
-    private Long targetQuantity;
-    private Product targetProduct;
-    private Status taskStatus;
+   private Double targetQuantity;
+   private Product targetProduct;
+   private Status taskStatus; // todo inherit status from work orders
+   private List<WorkOrder> workOrders;
 
-    public Task(Long targetQuantity, Product targetProduct, Status taskStatus) {
-        this.targetQuantity = targetQuantity;
-        this.targetProduct = targetProduct;
-    }
+   public Task() {
+   }
 
-    public Long getTargetQuantity() {
-        return targetQuantity;
-    }
+   public Double getTargetQuantity() {
+      return targetQuantity;
+   }
 
-    public Product getTargetProduct() {
-        return targetProduct;
-    }
+   public void setTargetQuantity(Double targetQuantity) {
+      this.targetQuantity = targetQuantity;
+   }
 
-    public Status getTaskStatus() {
-        return taskStatus;
-    }
+   public Product getTargetProduct() {
+      return targetProduct;
+   }
 
-    public void setTaskStatus(Status taskStatus) {
-        this.taskStatus = taskStatus;
-    }
+   public void setTargetProduct(Product targetProduct) {
+      this.targetProduct = targetProduct;
+   }
+
+   public Status getTaskStatus() {
+      return taskStatus;
+   }
+
+   public void setTaskStatus(Status taskStatus) {
+      this.taskStatus = taskStatus;
+   }
+
+   public List<WorkOrder> getWorkOrders() {
+      return workOrders;
+   }
+
+   public void setWorkOrders(List<WorkOrder> workOrders) {
+      this.workOrders = workOrders;
+   }
 }
