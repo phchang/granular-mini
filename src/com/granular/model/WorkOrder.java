@@ -1,20 +1,11 @@
 package com.granular.model;
 
 public class WorkOrder {
-   private Long id;
    private Double targetQuantity;
    private Double actualQuantityApplied;
    private Status workOrderStatus;
 
    public WorkOrder() {
-   }
-
-   public Long getId() {
-      return id;
-   }
-
-   public void setId(Long id) {
-      this.id = id;
    }
 
    public Double getTargetQuantity() {

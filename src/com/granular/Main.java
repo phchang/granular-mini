@@ -1,17 +1,15 @@
 package com.granular;
 
 import com.granular.controller.CommandLineController;
-import com.granular.controller.PlanController;
-import com.granular.dao.InventoryDao;
-import com.granular.dao.PlanDao;
+import com.granular.model.Plan;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
 
-   public static void main(String[] args) throws SQLException {
+   public static void main(String[] args) {
 
         /*
             todo welcome screen
@@ -28,14 +26,9 @@ public class Main {
                - add work order
          */
 
-      Connection conn = DriverManager.getConnection("jdbc:hsqldb:file:db/granular", "sa", "");
 
-      InventoryDao inventoryDao = new InventoryDao(conn);
-      PlanDao planDao = new PlanDao(conn);
 
-      PlanController controller = new PlanController(inventoryDao);
-
-      CommandLineController clController = new CommandLineController(controller, System.in, System.out);
+      CommandLineController clController = new CommandLineController(System.in, System.out);
       clController.start();
    }
 }

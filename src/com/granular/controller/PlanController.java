@@ -5,7 +5,6 @@ import com.granular.dao.PlanDao;
 import com.granular.model.Plan;
 import com.granular.model.Product;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class PlanController {
@@ -16,8 +15,7 @@ public class PlanController {
    private Plan selectedPlan;
 
    public PlanController(InventoryDao inventoryDao) {
-//      planDao = new PlanDao();
-      planDao = null; // todo fix
+      planDao = new PlanDao();
       this.inventoryDao = inventoryDao;
 
       selectedPlan = null;
@@ -28,33 +26,23 @@ public class PlanController {
    }
 
    public Iterable<Plan> getPlans() {
-      try {
-         return planDao.findAll();
-      } catch (SQLException e) {
-         e.printStackTrace();
-      }
-      return null;
+      return planDao.findAll();
    }
 
    public void addPlan(Plan plan) {
       selectedPlan = plan;
 
       plan.setId(planDao.getNextId());
-//      planDao.save(plan);
+      planDao.save(plan);
    }
 
    public Iterable<Product> getProducts() {
-      try {
-         return inventoryDao.findAll();
-      } catch (SQLException e) {
-         e.printStackTrace();
-      }
-      return null;
+      return inventoryDao.findAll();
    }
 
    public void addProductsToInventory(List<Product> products) {
       for (Product product : products) {
-//         inventoryDao.save(product);
+         inventoryDao.save(product);
       }
    }
 }

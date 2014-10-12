@@ -15,11 +15,22 @@ public class CommandLineController {
    private BufferedReader reader;
    private Stack<View> viewStack;
 
-   public CommandLineController(PlanController controller, InputStream in, PrintStream out) {
-      this.controller = controller;
+   public CommandLineController(InputStream in, PrintStream out) {
       this.out = out;
-      this.reader = new BufferedReader(new InputStreamReader(in));
-      this.viewStack = new Stack<>();
+      reader = new BufferedReader(new InputStreamReader(in));
+
+      List<Product> products = new ArrayList<>();
+      products.add(new Product("Herbicide 1", "HB1", 100d));
+      products.add(new Product("Herbicide 2", "HB2", 200d));
+      products.add(new Product("Food 1", "FD1", 1000d));
+      products.add(new Product("Food 2", "FD2", 2000d));
+
+      InventoryDao inventoryDao = new InventoryDao();
+
+      controller = new PlanController(inventoryDao);
+      controller.addProductsToInventory(products);
+
+      viewStack = new Stack<>();
    }
 
    public void start() {
