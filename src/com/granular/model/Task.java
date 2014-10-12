@@ -1,14 +1,16 @@
 package com.granular.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Task {
    private Double targetQuantity;
-   private Product targetProduct;
+   private Product targetProduct; // todo consider just storing code here
    private Status taskStatus; // todo inherit status from work orders
    private List<WorkOrder> workOrders;
 
    public Task() {
+      this.workOrders = new ArrayList<>();
    }
 
    public Double getTargetQuantity() {
@@ -41,5 +43,10 @@ public class Task {
 
    public void setWorkOrders(List<WorkOrder> workOrders) {
       this.workOrders = workOrders;
+   }
+
+   public void addWorkOrder(WorkOrder workOrder) {
+      workOrder.setWorkOrderStatus(Status.NOT_STARTED);
+      this.workOrders.add(workOrder);
    }
 }
