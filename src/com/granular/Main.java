@@ -1,14 +1,20 @@
 package com.granular;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import com.granular.controller.CommandLineController;
+import com.granular.controller.PlanController;
+import com.granular.dao.InventoryDao;
+import com.granular.dao.PlanDao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Main {
 
-   public static void main(String[] args) {
+   public static void main(String[] args) throws SQLException {
 
         /*
+            todo welcome screen
             todo: plans
                - list plans
                - create plans
@@ -22,14 +28,14 @@ public class Main {
                - add work order
          */
 
-      BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-      System.out.println("test input");
+      Connection conn = DriverManager.getConnection("jdbc:hsqldb:file:db/granular", "sa", "");
 
-      try {
-         String name = reader.readLine();
-         System.out.println("input = " + name);
-      } catch (IOException e) {
-         e.printStackTrace();
-      }
+      InventoryDao inventoryDao = new InventoryDao(conn);
+      PlanDao planDao = new PlanDao(conn);
+
+      PlanController controller = new PlanController(inventoryDao);
+
+      CommandLineController clController = new CommandLineController(controller, System.in, System.out);
+      clController.start();
    }
 }
