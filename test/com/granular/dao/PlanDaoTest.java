@@ -2,10 +2,13 @@ package com.granular.dao;
 
 import com.granular.model.Plan;
 import com.granular.model.Task;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -13,8 +16,24 @@ import java.util.List;
 
 public class PlanDaoTest {
 
+   private Statement st;
+   private ResultSet rs;
+   private Connection conn;
+
+   @Before
+   public void setUp() throws Exception {
+      conn = DriverManager.getConnection("jdbc:hsqldb:mem:testdb", "sa", "");
+   }
+
+   @After
+   public void tearDown() throws Exception {
+      rs.close();
+      st.close();
+      conn.close();
+   }
+
    @Test
-   public void testPlanDao_SaveAndRetrieve() {
+   public void testPlanDao_SaveAndRetrieve() throws SQLException {
 
       Task task1 = new Task();
       task1.setTargetQuantity(1d);
@@ -25,7 +44,7 @@ public class PlanDaoTest {
       Plan plan1 = new Plan();
       plan1.setTasks(Arrays.asList(task1, task2));
 
-      PlanDao dao = new PlanDao();
+      PlanDao dao = new PlanDao(conn);
       dao.save(plan1);
 
       Iterable<Plan> plans = dao.findAll();
