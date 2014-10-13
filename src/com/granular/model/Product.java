@@ -4,11 +4,13 @@ public class Product {
    private String name;
    private String code;
    private Double balance;
+   private String unitType;
 
-   public Product(String name, String code, Double balance) {
+   public Product(String name, String code, Double balance, String unitType) {
       this.name = name;
       this.balance = balance;
       this.code = code;
+      this.unitType = unitType;
    }
 
    public String getName() {
@@ -25,5 +27,9 @@ public class Product {
 
    public String getCode() {
       return code;
+   }
+
+   public String getUnitType() {
+      return unitType;
    }
 }
