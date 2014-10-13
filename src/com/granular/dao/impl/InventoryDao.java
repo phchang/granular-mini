@@ -19,7 +19,7 @@ public class InventoryDao extends AbstractBasicDao<Product> implements Dao<Produ
       Product product = findByCode(code);
 
       if (product != null) {
-         if (product.getBalance() > applied) {
+         if (product.getBalance() >= applied) {
             return true;
          }
       }
