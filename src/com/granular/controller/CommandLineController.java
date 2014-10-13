@@ -1,6 +1,5 @@
 package com.granular.controller;
 
-import com.granular.dao.InventoryDao;
 import com.granular.exception.ValidationException;
 import com.granular.model.*;
 
