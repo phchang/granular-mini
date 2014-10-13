@@ -113,11 +113,13 @@ public class CommandLineController {
          printHeaderLine(header.length());
 
          for (Plan plan : plans) {
+
             planMap.put(plan.getId(), plan);
             int numTasks = plan.getTasks() == null ? 0 : plan.getTasks().size();
             String suffix = numTasks == 1 ? "tasks" : "tasks"; // don't display "task(s)", drawing a line in the sand
 
             out.println("[" + plan.getId() + "]" + "\t" + plan.getName() + " (" + numTasks + " " + suffix + ")");
+
          }
 
          out.println("\n(B)ack");
@@ -145,6 +147,7 @@ public class CommandLineController {
    }
 
    private class PlanEditView implements View {
+
       private Plan plan;
 
       private PlanEditView(Plan plan) {
@@ -153,25 +156,27 @@ public class CommandLineController {
 
       @Override
       public View show() throws IOException {
-
          int numTasks = plan.getTasks().size();
          String suffix = numTasks == 1 ? "task" : "tasks";
-         String header = plan.getName() + " (" + numTasks + " " + suffix + ")";
+         String header = plan.getName() + " (" + numTasks + " " + suffix + ")"; // e.g. Plan A (2 tasks)
 
          out.println("\n" + header);
          printHeaderLine(header.length());
 
          if (plan.getTasks() == null || plan.getTasks().isEmpty()) {
+
             out.println("There are no tasks.");
             out.println("\n(A)dd Task, (B)ack, (D)elete Plan");
-         } else {
 
+         } else {
+            // print out task selection options
             for (int i = 0; i < plan.getTasks().size(); i++) {
                Task task = plan.getTasks().get(i);
 
                out.println("[" + i + "] " + task.getTargetProduct().getCode() + "\t" + task.getTaskStatus() + "\t" + task.getTargetQuantity() + " " + task.getTargetProduct().getUnitType());
             }
 
+            // generate a target vs. actuals report
             List<ProductReport> actualsReport = controller.getActualsReport(plan);
 
             out.println("\n----- target vs. actuals -----");
@@ -213,17 +218,28 @@ public class CommandLineController {
                // todo does removing a plan decrement the inventory balance?
                controller.removePlan(plan);
                return null;
+
             case "B":
                return null;
-            default:
-               Integer taskId = Integer.parseInt(option); // todo handle exception
 
-               return new TaskEditView(plan.getTasks().get(taskId));
+            default:
+               try {
+                  Integer taskId = Integer.parseInt(option);
+
+                  if (taskId >= 0 && taskId < plan.getTasks().size()) {
+                     return new TaskEditView(plan.getTasks().get(taskId));
+                  }
+               } catch (NumberFormatException e) {
+                  // no-op
+               }
+
+            return this;
          }
       }
    }
 
    private class TaskEditView implements View {
+
       private Task task;
 
       private TaskEditView(Task task) {
@@ -259,6 +275,7 @@ public class CommandLineController {
                try {
                   controller.addWorkOrder(task, workOrder);
                } catch (ValidationException e) {
+                  // the summed quantities of the work orders exceeds the target of the task
                   out.println("The work order could not be added.");
                   out.println(">>>> " + e.getMessage());
                   out.println("Press enter to continue...");
@@ -266,21 +283,39 @@ public class CommandLineController {
                }
 
                return this;
+
             case "D":
                controller.removeTask(task);
                return null;
+
             case "U":
                out.println("Enter a new target quantity:");
                option = reader.readLine();
-               Double target = Double.parseDouble(option);
-               controller.updateTaskTarget(task, target);
+
+               try {
+                  Double target = Double.parseDouble(option);
+                  controller.updateTaskTarget(task, target);
+               } catch (NumberFormatException e) {
+                  // no-op
+               }
 
                return this;
+
             case "B":
                return null;
-            default: 
-               Integer wo = Integer.parseInt(option);
-               return new WorkOrderEditView(task.getWorkOrders().get(wo));
+
+            default:
+               try {
+                  Integer wo = Integer.parseInt(option);
+
+                  if (wo >= 0 && wo < task.getWorkOrders().size()) {
+                     return new WorkOrderEditView(task.getWorkOrders().get(wo));
+                  }
+               } catch (NumberFormatException e) {
+                  // no-op
+               }
+
+            return this;
          }
       }
    }
@@ -313,25 +348,32 @@ public class CommandLineController {
 
          switch (option) {
             case "U":
-
                out.println("\nEnter amount applied:");
                option = reader.readLine();
 
-               double applied = Double.parseDouble(option);
+               try {
+                  double applied = Double.parseDouble(option);
+                  controller.updateWorkOrderActual(workOrder, applied);
+               } catch (NumberFormatException e) {
+                  // no-op
+               }
 
-               controller.updateWorkOrderActual(workOrder, applied);
                return this;
+
             case "T":
                out.println("\nEnter new target:");
                option = reader.readLine();
 
-               double target = Double.parseDouble(option);
-               controller.updateWorkOrderTarget(workOrder, target);
+               try {
+                  double target = Double.parseDouble(option);
+                  controller.updateWorkOrderTarget(workOrder, target);
+               } catch (NumberFormatException e) {
+                  // no-op
+               }
 
                return this;
 
             case "C":
-
                out.println("");
 
                for (int i = 0; i < Status.values().length; i++) {
@@ -341,10 +383,12 @@ public class CommandLineController {
 
                option = reader.readLine();
 
-               Integer statusOption = Integer.parseInt(option);
-
                try {
+                  Integer statusOption = Integer.parseInt(option);
                   controller.updateWorkOrderStatus(workOrder, Status.values()[statusOption]);
+
+               } catch (NumberFormatException e) {
+                  // no-op
                } catch (ValidationException e) {
                   out.println("Could not update status of work order status.");
                   out.println(">>>> " + e.getMessage());
@@ -360,7 +404,7 @@ public class CommandLineController {
                return null;
          }
 
-         return null;
+         return this;
       }
    }
 
