@@ -1,11 +1,13 @@
 package com.granular.model;
 
 public class WorkOrder {
+   private Task task;
    private Double targetQuantity;
    private Double actualQuantityApplied;
    private Status workOrderStatus;
 
    public WorkOrder() {
+      actualQuantityApplied = 0d;
    }
 
    public Double getTargetQuantity() {
@@ -30,5 +32,13 @@ public class WorkOrder {
 
    public void setWorkOrderStatus(Status workOrderStatus) {
       this.workOrderStatus = workOrderStatus;
+   }
+
+   public Task getTask() {
+      return task;
+   }
+
+   public void setTask(Task task) {
+      this.task = task;
    }
 }
