@@ -42,10 +42,6 @@ public class Task {
       return workOrders;
    }
 
-   public void setWorkOrders(List<WorkOrder> workOrders) {
-      this.workOrders = workOrders;
-   }
-
    public Plan getPlan() {
       return plan;
    }

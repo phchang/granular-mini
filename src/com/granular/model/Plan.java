@@ -35,10 +35,4 @@ public class Plan {
    public void setTasks(List<Task> tasks) {
       this.tasks = tasks;
    }
-
-   public void addTask(Task task) {
-      // by default, not started
-      task.setTaskStatus(Status.NOT_STARTED);
-      this.tasks.add(task);
-   }
 }
