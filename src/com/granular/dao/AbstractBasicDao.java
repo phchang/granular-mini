@@ -3,9 +3,9 @@ package com.granular.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AbstractBasicDao<T> implements Dao<T> {
+public abstract class AbstractBasicDao<T> implements Dao<T> {
 
-   private List<T> objects;
+   protected List<T> objects;
 
    public AbstractBasicDao() {
       objects = new ArrayList<>();
