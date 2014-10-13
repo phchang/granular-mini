@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Task {
+   private Plan plan;
    private Double targetQuantity;
-   private Product targetProduct; // todo consider just storing code here
-   private Status taskStatus; // todo inherit status from work orders
+   private Product targetProduct;
+   private Status taskStatus;
    private List<WorkOrder> workOrders;
 
    public Task() {
@@ -43,6 +44,14 @@ public class Task {
 
    public void setWorkOrders(List<WorkOrder> workOrders) {
       this.workOrders = workOrders;
+   }
+
+   public Plan getPlan() {
+      return plan;
+   }
+
+   public void setPlan(Plan plan) {
+      this.plan = plan;
    }
 
    public void addWorkOrder(WorkOrder workOrder) {
