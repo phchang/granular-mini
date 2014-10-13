@@ -29,7 +29,7 @@ public class CommandLineController {
    public void start() {
       running = true;
 
-      out.println("Crop Planner");
+      out.println("\nCrop Planner");
       out.println("------------\n");
 
       View homeView = new HomeView();
@@ -45,6 +45,7 @@ public class CommandLineController {
                }
                currentView = nextView;
             } else {
+               // a null view serves as an instruction to go "back"
                currentView = viewStack.isEmpty() ? homeView : viewStack.pop();
             }
 
@@ -58,6 +59,7 @@ public class CommandLineController {
    private interface View { public View show() throws IOException; }
 
    private class HomeView implements View {
+
       @Override
       public View show() throws IOException {
          out.println("(V)iew Plans, (A)dd Plan, (L)ist Inventory, (Q)uit");
@@ -67,7 +69,6 @@ public class CommandLineController {
          switch (option) {
             case "V":
                // display a list of available plans
-
                Iterable<Plan> plans = controller.getPlans();
 
                if (!plans.iterator().hasNext()) {
@@ -95,8 +96,8 @@ public class CommandLineController {
                break;
          }
 
-
-         return null;
+         // for a lack of a better way to handle this, if the user types in something invalid, just show the view again
+         return this;
       }
    }
 
@@ -107,18 +108,19 @@ public class CommandLineController {
          Iterable<Plan> plans = controller.getPlans();
          Map<Long, Plan> planMap = new HashMap<>();
 
-         out.println("\nSelect a plan");
-         out.println("--------------");
+         String header = "Select a plan";
+         out.println("\n" + header);
+         printHeaderLine(header.length());
 
          for (Plan plan : plans) {
             planMap.put(plan.getId(), plan);
             int numTasks = plan.getTasks() == null ? 0 : plan.getTasks().size();
-            String suffix = numTasks == 1 ? "tasks" : "tasks";
+            String suffix = numTasks == 1 ? "tasks" : "tasks"; // don't display "task(s)", drawing a line in the sand
 
             out.println("[" + plan.getId() + "]" + "\t" + plan.getName() + " (" + numTasks + " " + suffix + ")");
          }
 
-         out.println("(B)ack");
+         out.println("\n(B)ack");
 
          String option = reader.readLine();
 
