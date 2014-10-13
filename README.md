@@ -29,14 +29,15 @@ central inventory tracking system.
   started
 
 ## Console App
-* The console app should be able to create a plan, add N tasks to the plan, and then assign M work orders for each task.
+* The console app should be able to create a plan, add N tasks to the plan, and then 
+  assign M work orders for each task.
 
-* In a simple tabular report, list the planned vs actual quantities for each product assigned to each task 
-  (formatting not important, the numbers and approach are more important)
+* In a simple tabular report, list the planned vs actual quantities for each product 
+  assigned to each task (formatting not important, the numbers and approach are more 
+  important)
   
 * The console app should be able to:
-    - perform CRUD operations on the plan, tasks and work orders
     - modify product quantities (target and actual) for each task and for each work order
     - show a rolled up actual for each plan at the task and work order level
-    - The current balance of any product in the central inventory tracking system should be reported as well.
-
+    - The current balance of any product in the central inventory tracking system should 
+      be reported as well.
