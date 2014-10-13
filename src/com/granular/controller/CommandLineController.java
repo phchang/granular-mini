@@ -124,11 +124,23 @@ public class CommandLineController {
 
          String option = reader.readLine();
 
-         if (option.equals("B")) {
-            return null;
+         switch (option) {
+            case "B":
+               return null;
+            default:
+               try {
+                  Long planId = Long.valueOf(option);
+                  Plan plan = planMap.get(planId);
+
+                  if (plan != null) {
+                     return new PlanEditView(plan);
+                  }
+               } catch (NumberFormatException e) {
+                  // no-op
+               }
          }
 
-         return new PlanEditView(planMap.get(Long.valueOf(option)));
+         return this;
       }
    }
 
