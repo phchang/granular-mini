@@ -89,6 +89,7 @@ public class CommandLineController {
                return new PlanEditView(plan);
             case "L":
                printProducts(controller.getProducts());
+               out.println("");
                break;
             case "Q":
                running = false;
