@@ -7,22 +7,19 @@ import com.granular.model.*;
 
 import java.util.*;
 
+/**
+ * Handles operations operations and logic regarding plans, tasks, and work orders.
+ */
 public class PlanController {
 
    private PlanDao planDao;
    private InventoryDao inventoryDao;
 
-   private Plan selectedPlan;
-
    public PlanController(InventoryDao inventoryDao) {
-      planDao = new PlanDao();
+
+      planDao = new PlanDao(); // this would be injected in if it read and wrote to a real DB
       this.inventoryDao = inventoryDao;
 
-      selectedPlan = null;
-   }
-
-   public Plan getSelectedPlan() {
-      return selectedPlan;
    }
 
    public Iterable<Plan> getPlans() {
@@ -30,7 +27,6 @@ public class PlanController {
    }
 
    public void addPlan(Plan plan) {
-      selectedPlan = plan;
 
       plan.setId(planDao.getNextId());
       planDao.save(plan);
@@ -44,10 +40,6 @@ public class PlanController {
       for (Product product : products) {
          inventoryDao.save(product);
       }
-   }
-
-   public void removeProduct(Product product) {
-      // todo validate not used by any other work plans, or zero balance
    }
 
    public void addWorkOrder(Task task, WorkOrder orderToAdd) throws ValidationException {
@@ -71,9 +63,11 @@ public class PlanController {
    }
 
    public void addTaskToPlan(Plan plan, Task task) {
+
       plan.getTasks().add(task);
       task.setTaskStatus(Status.NOT_STARTED);
       task.setPlan(plan);
+
    }
 
    public void updateWorkOrderStatus(WorkOrder workOrder, Status status) throws ValidationException {
@@ -155,7 +149,6 @@ public class PlanController {
       List<Task> tasks = plan.getTasks();
 
       for (Task task : tasks) {
-         Product product = task.getTargetProduct();
 
          Double totalApplied = 0d;
 
