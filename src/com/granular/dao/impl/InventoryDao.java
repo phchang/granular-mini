@@ -6,6 +6,12 @@ import com.granular.model.Product;
 
 public class InventoryDao extends AbstractBasicDao<Product> implements Dao<Product> {
 
+   /**
+    * Debits the central inventory balanced.
+    *
+    * todo not exactly sure what the implications of overdrawing is
+    *    - e.g. is it physically possible? if so, should it be enforced here?
+    */
    public void debitBalance(String productCode, Double amountToDebit) {
 
       for (Product product : findAll()) {

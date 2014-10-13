@@ -14,6 +14,11 @@ import java.util.*;
  */
 public class PlanController {
 
+   /*
+      A single DAO for plan exists. In a "real" application, I would have a single Hibernate DAO
+      with the sub-entities mapped and managed by the ORM. A save() and flush() would cascade the
+      updates.
+    */
    private PlanDao planDao;
    private InventoryDao inventoryDao;
 
