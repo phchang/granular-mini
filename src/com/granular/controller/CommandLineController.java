@@ -7,6 +7,9 @@ import com.granular.model.*;
 import java.io.*;
 import java.util.*;
 
+/**
+ * CommandLineController serves to take input and display output to the user, delegating logic to the PlanController.
+ */
 public class CommandLineController {
    private PrintStream out;
 
@@ -16,22 +19,11 @@ public class CommandLineController {
    private BufferedReader reader;
    private Stack<View> viewStack;
 
-   public CommandLineController(InputStream in, PrintStream out) {
+   public CommandLineController(PlanController controller, InputStream in, PrintStream out) {
       this.out = out;
-      reader = new BufferedReader(new InputStreamReader(in));
-
-      List<Product> products = new ArrayList<>();
-      products.add(new Product("Herbicide 1", "HB1", 100d, "gal"));
-      products.add(new Product("Herbicide 2", "HB2", 200d, "gal"));
-      products.add(new Product("Food 1", "FD1", 1000d, "lbs"));
-      products.add(new Product("Food 2", "FD2", 2000d, "lbs"));
-
-      InventoryDao inventoryDao = new InventoryDao();
-
-      controller = new PlanController(inventoryDao);
-      controller.addProductsToInventory(products);
-
-      viewStack = new Stack<>();
+      this.controller = controller;
+      this.reader = new BufferedReader(new InputStreamReader(in));
+      this.viewStack = new Stack<>();
    }
 
    public void start() {

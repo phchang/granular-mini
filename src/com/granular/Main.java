@@ -1,34 +1,33 @@
 package com.granular;
 
 import com.granular.controller.CommandLineController;
+import com.granular.controller.PlanController;
+import com.granular.dao.InventoryDao;
 import com.granular.model.Plan;
+import com.granular.model.Product;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
    public static void main(String[] args) {
 
-        /*
-            todo welcome screen
-            todo: plans
-               - list plans
-               - create plans
-               - add tasks to plan
-               - assign work orders to each task
+      List<Product> products = new ArrayList<>();
+      products.add(new Product("Herbicide 1", "HB1", 100d, "gal"));
+      products.add(new Product("Herbicide 2", "HB2", 200d, "gal"));
+      products.add(new Product("Food 1", "FD1", 1000d, "lbs"));
+      products.add(new Product("Food 2", "FD2", 2000d, "lbs"));
 
-            todo: tasks
-               - add tasks
+      InventoryDao inventoryDao = new InventoryDao();
 
-            todo: work orders
-               - add work order
-         */
+      PlanController controller = new PlanController(inventoryDao);
+      controller.addProductsToInventory(products);
 
-
-
-      CommandLineController clController = new CommandLineController(System.in, System.out);
+      CommandLineController clController = new CommandLineController(controller, System.in, System.out);
       clController.start();
    }
 }
