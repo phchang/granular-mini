@@ -98,7 +98,7 @@ public class PlanControllerTest {
 
       Task task1 = new Task();
       task1.setTargetQuantity(100d);
-      task1.setTargetProduct(products.get(1));
+      task1.setTargetProduct(products.get(0));
 
       controller.addTaskToPlan(plan1, task1);
 
@@ -107,7 +107,7 @@ public class PlanControllerTest {
       workOrder1.setWorkOrderStatus(Status.NOT_STARTED);
 
       try {
-         controller.updateWorkOrderStatus(workOrder1, Status.IN_PROGRESS);
+         controller.addWorkOrder(task1, workOrder1);
          fail("An exception should have been thrown here, the target quantity is greater than what is in the inventory");
       } catch (ValidationException e) {
          // no-op
@@ -135,7 +135,7 @@ public class PlanControllerTest {
 
       Task task1 = new Task();
       task1.setTargetQuantity(100d);
-      task1.setTargetProduct(products.get(1));
+      task1.setTargetProduct(products.get(0));
 
       controller.addTaskToPlan(plan1, task1);
 
@@ -152,7 +152,7 @@ public class PlanControllerTest {
       inventoryDao.debitBalance("HB1", 99d);
 
       try {
-         controller.addWorkOrder(task1, workOrder1);
+         controller.updateWorkOrderStatus(workOrder1, Status.IN_PROGRESS);
          fail("An exception should have been thrown here, the target quantity is too high");
       } catch (ValidationException e) {
          // no-op
