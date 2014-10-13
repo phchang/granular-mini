@@ -1,7 +1,7 @@
 package com.granular.controller;
 
-import com.granular.dao.InventoryDao;
-import com.granular.dao.PlanDao;
+import com.granular.dao.impl.InventoryDao;
+import com.granular.dao.impl.PlanDao;
 import com.granular.exception.ValidationException;
 import com.granular.model.*;
 

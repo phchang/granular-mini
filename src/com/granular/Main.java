@@ -2,13 +2,9 @@ package com.granular;
 
 import com.granular.controller.CommandLineController;
 import com.granular.controller.PlanController;
-import com.granular.dao.InventoryDao;
-import com.granular.model.Plan;
+import com.granular.dao.impl.InventoryDao;
 import com.granular.model.Product;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 

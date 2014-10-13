@@ -1,5 +1,6 @@
 package com.granular.dao;
 
+import com.granular.dao.impl.PlanDao;
 import com.granular.model.Plan;
 import com.granular.model.Task;
 import org.junit.Test;
@@ -8,7 +9,6 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 public class PlanDaoTest {
