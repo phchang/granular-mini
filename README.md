@@ -2,7 +2,7 @@
 
 Compile and run the project:
 
-    ant
+    ant run
 
 Run the tests:
 
