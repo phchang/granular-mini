@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<project name="granular-mini" basedir="." default="jar">
+    <property name="src" value="src"/>
+	 <property name="test.dir" value="test"/>
+    <property name="output" value="target"/>
+	 <property name="jar.dir" value="${output}/jar"/>
+	 <property name="lib.dir" value="lib"/>
+	 <property name="report.dir" value="${output}/junit"/>
+
+    <target name="clean">
+        <delete dir="${output}"/>
+    </target>
+ 
+    <target name="compile" depends="create">
+        <javac destdir="target">
+            <src path="${src}"/>
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+	
+	<target name="compile-test" depends="create">
+        <javac destdir="target">
+            <src path="${test.dir}"/>
+            <classpath refid="classpath"/>
+        </javac>
+    </target> 
+
+    <target name="jar" depends="compile">
+        <jar destfile="${jar.dir}/granular-mini.jar">
+            <fileset dir="target"/>
+				<manifest>
+					<attribute name="Main-Class" value="com.granular.Main"/>
+				</manifest>
+        </jar>
+    </target>
+
+	<target name="jar-test" depends="compile-test">
+        <jar destfile="${jar.dir}/granular-mini-test.jar">
+            <fileset dir="target"/>
+        </jar>
+    </target>
+
+	 <target name="run" depends="jar">
+		<java jar="${jar.dir}/granular-mini.jar" fork="true"/>
+	 </target>
+
+
+	 <target name="junit" depends="jar, jar-test">
+		<mkdir dir="${report.dir}"/>
+		<junit printsummary="yes">
+			<classpath>
+				<path refid="classpath"/>
+				<path refid="classpath-test"/>
+				<path refid="application"/>
+			</classpath>
+
+			<formatter type="xml"/>
+
+			<batchtest fork="yes" todir="${report.dir}">
+				<fileset dir="${test.dir}" includes="**/*"/>
+			</batchtest>
+		</junit>
+	 </target>
+
+	<target name="junitreport">
+        <junitreport todir="${report.dir}">
+            <fileset dir="${report.dir}" includes="TEST-*.xml"/>
+            <report todir="${report.dir}"/>
+        </junitreport>
+    </target>
+ 
+
+    <target name="create" depends="clean">
+        <mkdir dir="${output}"/>
+    </target>
+
+	 <path id="application" location="${jar.dir}/${ant.project.name}.jar"/>
+
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+
+	 <path id="classpath-test">
+		<fileset dir="${output}" includes="**/*test.jar"/>
+	 </path>
+</project>
+
