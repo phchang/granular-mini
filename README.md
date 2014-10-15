@@ -1,3 +1,19 @@
+# Running the Project
+
+Compile and run the project:
+
+    ant
+
+Run the tests:
+
+    ant junit 
+
+Generate the JUnit HTML test report:
+
+    ant junitreport
+
+----
+
 # Mini Granular Module
 This project involves implementing a small console application that allows 
 the user to define a crop plan that can consist of multiple tasks, and each 
